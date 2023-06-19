@@ -46,6 +46,12 @@ const pizzaData = [
   },
 ];
 
+const messages = [
+  "Learn React ⚛️",
+  "Apply for jobs 💼",
+  "Invest your new income 🤑",
+];
+
 function App() {
   
   return (
@@ -53,6 +59,8 @@ function App() {
       <div className='container'>
         <Header/>
         <Menu />
+        <Steps/>
+        <Counter />
         <Footer />
       </div>
     </>
@@ -132,6 +140,84 @@ function Pizza(props){
       <p style={{color: "red"}}>{props.soldOut && <h1 cl>Sold Out</h1>}</p>
     </li>
     </>
+  )
+}
+
+function Steps(){
+  const [step, setStep] = useState(1)
+  const [isOpen, setIsOpen] = useState(true)
+
+  function handlePrevious(){
+    if (step > 1) setStep(step - 1)
+  }
+  function handleNext(){
+    if (step < 3) setStep(step + 1)
+  }
+
+  return (
+    <>
+        <button className="close" onClick={() => setIsOpen(!isOpen)}>{!isOpen ? "Open" : "Close"}</button>
+    { isOpen && (
+      <div className='steps'>
+      <div className='numbers'>
+        <div className={`${step >= 1 ? "active" : ""}`}>1</div>
+        <div className={`${step >= 2 ? "active" : ""}`}>2</div>
+        <div className={`${step >= 3 ? "active" : ""}`}>3</div>
+      </div>
+      
+      <p className='message'>Step {step}: {messages[step - 1]}</p>
+
+      <div className='buttons'>
+        <button style={{backgroundColor: "#7950f2", color: "#fff"}} onClick={handlePrevious}>Previous</button>
+        <button style={{backgroundColor: "#7950f2", color: "#fff"}} onClick={handleNext}>Next</button>
+      </div>
+    </div>
+    )
+}
+    </>
+  )
+}
+
+function Counter(){
+  const currentDate = new Date();
+  const [steps, setSteps] = useState(0)
+  const [count, setCount] = useState(0)
+  currentDate.setDate(currentDate.getDate() + count);
+  function handlePrevious(){
+    setSteps(steps - 1)
+  }
+  function handleNext(){
+    setSteps(steps + 1)
+  }
+  function countPrevious(){
+    setCount(count - steps)
+  }
+  function countNext(){
+    setCount(count + steps)
+  }
+
+
+  return (
+  <div>
+    <h1>Timer Counter</h1>
+    <div className="buttons">
+      <button onClick={handlePrevious}>-</button>
+      <h1>Step: {steps}</h1>
+      <button onClick={handleNext}>+</button>
+    </div>
+    <div className="buttons">
+      <button onClick={countPrevious}>-</button>
+      <h1>Count: {count}</h1>
+      <button onClick={countNext}>+</button>
+    </div>
+
+    <span>
+    <h1>{count === 0 ? "Today is " : count > 0 ? `${count} days from today is ` : 
+    `${Math.abs(count)} days ago was `
+    }</h1>
+    <h1>{currentDate.toDateString()}</h1>
+    </span>
+    </div>
   )
 }
 
